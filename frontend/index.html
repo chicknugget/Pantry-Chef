@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/x-icon" href="assets/room-service.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pantry Chef</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- HERO — PAGE 1                       -->
+  <!-- ═══════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-content">
+      <img src="assets/title.png" alt="Pantry Chef" class="hero-title-img" />
+      <img src="assets/phrase.png" alt="your kitchen knows more than you think" class="hero-phrase-img" />
+      <div class="hero-nav">
+        <button class="nav-btn" onclick="scrollToSection('section-pantry')">Pantry</button>
+        <button class="nav-btn" onclick="scrollToSection('section-recipes')">Recipes</button>
+        <button class="nav-btn" onclick="scrollToSection('section-shopping')">Shopping List</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SECTION 1: PANTRY                   -->
+  <!-- ═══════════════════════════════════ -->
+  <section id="section-pantry" class="pantry-section">
+    <div class="pantry-inner">
+
+      <!-- Title + form row -->
+      <div class="pantry-topbar">
+        <img src="assets/pantry_title.png" alt="Pantry" class="pantry-title-img" height="291.0.4" width="105" />
+        <div class="pantry-form">
+          <input type="text" id="item-name" class="form-input" placeholder="ingredient name" />
+          <input type="number" id="item-qty" class="form-input narrow" placeholder="quantity" min="0.1" step="0.1" />
+          <select id="item-unit" class="form-select">
+            <option value="pieces">pieces</option>
+            <option value="grams">grams</option>
+            <option value="ml">ml</option>
+            <option value="litres">litres</option>
+            <option value="cups">cups</option>
+            <option value="tbsp">tbsp</option>
+            <option value="kg">kg</option>
+          </select>
+          <select id="item-category" class="form-select">
+            <option value="other">category</option>
+            <option value="meat">meat</option>
+            <option value="vegetable">vegetable</option>
+            <option value="dairy">dairy</option>
+            <option value="other">miscellaneous</option>
+          </select>
+          <input type="number" id="item-threshold" class="form-input narrow" placeholder="low stock alert at" min="0"
+            step="0.1" />
+        </div>
+        <button class="btn-add-item" onclick="addItem()">add</button>
+      </div>
+
+      <!-- Shelf viewer -->
+      <div class="shelf-viewer">
+        <button class="shelf-prev-btn" id="shelf-prev-btn" onclick="prevCategory()"
+          style="visibility:hidden">&#60;</button>
+        <div id="pantry-shelves" class="shelf-categories"></div>
+        <button class="shelf-next-btn" id="shelf-next-btn" onclick="nextCategory()">&#62;</button>
+      </div>
+
+      <div class="category-dots" id="category-dots"></div>
+
+      <!-- Low stock banner -->
+      <div id="low-stock-banner" class="low-stock-banner" style="display:none">
+        <span>&#9888;</span>
+        <span id="low-stock-text"></span>
+        <button class="btn-ghost" onclick="scrollToSection('section-shopping')">view shopping list &rarr;</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SECTION 2: RECIPES                  -->
+  <!-- ═══════════════════════════════════ -->
+  <section id="section-recipes" class="recipe-section">
+    <div class="recipe-inner">
+
+      <div class="section-header">
+        <img src="assets/recipe-title.png" alt="Recipes" class="recipe-title-img" height="291.0.4" width="105" />
+        <button class="btn-secondary" onclick="loadPastRecipes()">past recipes</button>
+      </div>
+
+      <div class="prefs-row">
+        <input type="text" id="dietary-goal" class="form-input" placeholder="dietary goal (e.g. high protein)" />
+        <input type="text" id="allergies" class="form-input" placeholder="allergies (comma separated)" />
+        <input type="text" id="cuisine-pref" class="form-input" placeholder="cuisine preference" />
+      </div>
+
+      <p class="chat-hint"></p>
+      <img src="assets/recipe-chat-phrase.png"
+        alt="Hey! Tell me what you're in the mood for and I'll find something from your pantry."
+        class="recipe-phrase-img" />
+      <div class="chat-layout">
+        <div class="chat-window" id="chat-window">
+          <div class="chat-msg assistant">
+            <div class="msg-bubble">
+              whatcha craving?
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" class="chat-input" placeholder="e.g. something quick and filling..."
+            onkeydown="if(event.key==='Enter') sendMessage()" />
+          <button class="btn-send" onclick="sendMessage()">send</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SECTION 3: SHOPPING LIST            -->
+  <!-- ═══════════════════════════════════ -->
+  <section id="section-shopping" class="shopping-section">
+    <div class="shopping-inner">
+
+      <div class="section-header">
+        <img src="assets/shopping-list-title.png" alt="Shopping List" class="shopping-title-img" height="291.0.4"
+          width="105" />
+      </div>
+
+      <img src="assets/shopping-list-phrase.png" alt="items running low in your pantry" class="shopping-phrase-img" />
+
+      <div class="shopping-layout">
+        <div class="shopping-list-wrap">
+          <div id="shopping-items" class="shopping-items"></div>
+        </div>
+        <div class="shopping-actions">
+          <button class="btn-primary" onclick="addManualItem()">Add more things</button>
+          <button class="btn-primary" onclick="loadShoppingList()">Refresh list</button>
+          <button class="btn-primary" onclick="downloadShoppingCard()">Download card</button>
+        </div>
+      </div>
+
+      <div id="manual-add-wrap" class="manual-add-wrap" style="display:none">
+        <input type="text" id="manual-item" class="form-input" placeholder="item to buy..." />
+        <button class="btn-primary" onclick="saveManualItem()">add</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ITEM MODAL -->
+  <div id="item-modal" class="modal-overlay" style="display:none" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeItemModal()">&#10005;</button>
+      <h3 id="modal-item-name" class="modal-title"></h3>
+      <div class="modal-fields">
+        <label>quantity</label>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="adjustQty(-1)">&#8722;</button>
+          <input type="number" id="modal-qty" class="form-input narrow" step="0.1" />
+          <button class="qty-btn" onclick="adjustQty(1)">+</button>
+        </div>
+        <label>unit</label>
+        <input type="text" id="modal-unit" class="form-input" />
+        <label>low stock alert at</label>
+        <input type="number" id="modal-threshold" class="form-input narrow" step="0.1" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="saveItemEdit()">save</button>
+        <button class="btn-danger" onclick="deleteItem()">delete</button>
+      </div>
+    </div>
+  </div>
+  <a href="https://github.com/chicknugget" target="_blank" class="maker-badge">
+    <img src="assets/nugget.png" alt="Nugget" class="maker-logo" />
+    <span class="maker-label">made by nugget</span>
+  </a>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
