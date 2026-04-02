@@ -84,7 +84,7 @@ Make sure you have these installed before starting:
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/pantry-chef.git
+git clone https://github.com/chicknugget/pantry-chef.git
 cd pantry-chef
 ```
 
