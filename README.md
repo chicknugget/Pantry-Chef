@@ -13,7 +13,7 @@ A personal pantry management app powered by a local LLM. Tell it what you have, 
 - Automatically deducts used ingredients when you cook something
 - Flags low stock items and builds a shopping list
 - Runs entirely on your machine — no cloud, no subscription, no data leaving your device
-
+![Main Page](pics/main page.png)
 ---
 
 ## Tech Stack
