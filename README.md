@@ -13,7 +13,8 @@ A personal pantry management app powered by a local LLM. Tell it what you have, 
 - Automatically deducts used ingredients when you cook something
 - Flags low stock items and builds a shopping list
 - Runs entirely on your machine — no cloud, no subscription, no data leaving your device
-![Main Page](pics/main page.png)
+
+![Main Page](pics/main_page.png)
 ---
 
 ## Tech Stack
@@ -170,9 +171,15 @@ Open `frontend/index.html` directly in your browser. No build step needed.
 When you ask for a recipe, the app:
 
 1. Fetches your current pantry from the database
+
+![Pantry Page](pics/pantry_page.png)
+
 2. Formats it into a structured summary grouped by category
 3. Injects your dietary goal, allergies, and preferences
 4. Sends everything to Ollama (llama3.2) running locally
+
+![Recipe Page](pics/recipe_page.png)
+
 5. Gets back a formatted recipe with ingredients, steps, and nutrition info
 6. Fetches a YouTube video link for the recipe name
 7. Returns everything to the frontend in one response
@@ -190,6 +197,8 @@ The model runs entirely on your machine — nothing is sent to any external AI s
 **After cooking** — click **"I made this — update my pantry"** after a recipe is shown. The app extracts the ingredients used and automatically subtracts them from your pantry.
 
 **Shopping list** — items that drop below their threshold or reach zero quantity appear here automatically. You can also add items manually and download the list as a text file.
+
+![Shopping List Page](pics/shoppinglist_page.png)
 
 ---
 
